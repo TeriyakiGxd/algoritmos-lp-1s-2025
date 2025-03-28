@@ -5,7 +5,7 @@ int main (){
 float peso;
 float altura;
 
-printf("CALCULO DE IMC\n\n");
+printf("CALCULO DE IMC\n");
 printf("Ola! Digite o seu peso(kg):\n");
 printf("Peso:");
 scanf("%f", &peso);
