@@ -12,7 +12,7 @@ int main (int argc, char* argv[]){
 
     area = lado * lado;
 
-        printf("\nA area desse quadraro eh de %d", area);
+        printf("\nA area desse quadrado eh de %d", area);
 
 
         return 0;
