@@ -73,8 +73,6 @@ int main(int argc, char* argv){
         break;
         
         case 'r':
-        break;
-
 
     int area;
     int base;
@@ -92,10 +90,9 @@ int main(int argc, char* argv){
 
         printf("\nA area desse retangulo eh de %d", area);
 
-
-        case 'z':
         break;
 
+        case 'z':
 
     int area;
     int base1;
@@ -118,6 +115,8 @@ int main(int argc, char* argv){
         printf("\nA area desse trapezio eh de %d", area);
 
 
+         break;
+
         case 't':
 
 
@@ -136,8 +135,6 @@ int main(int argc, char* argv){
     area = (base * altura) / 2;
 
         printf("\nA area desse triangulo eh de %d", area);
-
-
 
         break;
     }
