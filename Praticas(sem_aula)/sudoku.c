@@ -53,7 +53,7 @@ int VerificarMovimento(int board[size][size], int linha, int coluna, int num ){
         }
     }
 
-    return 1; // Movimento valido
+    return 1; // Movimento valido!
 }
 
 int Solucionar(int board [size][size] ){
