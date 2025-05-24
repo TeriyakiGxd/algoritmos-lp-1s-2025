@@ -5,8 +5,7 @@
 
 void menu(const char *titulo, const char *introducao, const char *opcoes[], int n_opcoes){
 
-
-
+    system("cls"); 
     printf("%s\n", titulo);
 
     if(introducao != NULL){
@@ -28,6 +27,15 @@ void MenuFuncionarios (){
     };
 
     menu("Opcao escolhida - Funcionarios","Especifique o grupo", opcoes, 4);
+}
+
+void Menu_EquipeDeBordo(){
+    const char *opcoes[] = {
+        "Piloto / Copiloto",
+        "Comissarios de bordo"
+    };
+
+    menu("Opcao escolhida - Equipe de bordo","Pilotos ou comissarios?", opcoes, 2);
 }
 
 
