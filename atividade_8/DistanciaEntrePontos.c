@@ -25,7 +25,7 @@ typedef struct {
     scanf("%d", &ponto2.y);
     printf("\n");
 
-    int distancia = sqrt(((ponto2.x - ponto1.x)^2) + ((ponto2.y - ponto1.y)^2));
+    int distancia = sqrt(pow(ponto2.x - ponto1.x, 2) + pow(ponto2.y - ponto1.y, 2)); 
 
     printf("A distância entre o ponto 1 = (%d, %d) e o ponto 2 = (%d, %d) é de %d", ponto1.x, ponto1.y, ponto2.x, ponto2.y, distancia);
 
