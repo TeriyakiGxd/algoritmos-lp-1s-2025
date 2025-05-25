@@ -19,8 +19,7 @@
     /*
     Resultado
     */
-    printf("A distância entre o ponto 1 = (%d, %d) e o ponto 2 = (%d, %d) é de %.3lf\n",
-           ponto1.x, ponto1.y, ponto2.x, ponto2.y, distancia);
+    printf("A distância entre o ponto 1 = (%d, %d) e o ponto 2 = (%d, %d) é de %.3lf\n", ponto1.x, ponto1.y, ponto2.x, ponto2.y, distancia);
 
     return 0;
 }
