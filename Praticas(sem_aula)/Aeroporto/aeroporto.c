@@ -4,7 +4,6 @@
 
 
 int main(int agrc, char *argv[]){
-    int opcao = 0;
 
     mainMenu();
 

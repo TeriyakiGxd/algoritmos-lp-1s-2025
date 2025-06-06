@@ -22,13 +22,24 @@ int maior_3n(int a, int b, int c){
 }
 
 /*
-Retorna o maior valor entre N numeros
+Retorna o menor entre 2 números inteiros.
 */
 
-int maior_n(int numeros[], int n){
-    if (n == 2)
-    for (int i = 0; i = n; i++ ){
-      
+int menor_2n(int a, int b){
+    int menor;
+    if (a < b){
+        menor = a;
+    } else {
+        menor = b;
     }
+    return menor;
+}
+
+/*
+    retorna o menor entre 3 números inteiros.
+*/
+
+int menor_3n(int a, int b, int c){
+    return menor_2n (menor_2n(a,b), c);
 
 }
