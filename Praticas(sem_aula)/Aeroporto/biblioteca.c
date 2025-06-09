@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <locale.h>
-
+#include <ctype.h>
 
 void menu(const char *titulo, const char *introducao, const char *opcoes[], int n_opcoes);
 void MenuFuncionarios();
@@ -13,7 +13,8 @@ void gerenciarPilotos();
 void consultarPiloto();
 char *gerarID(const char *tipo_voo);
 int idExiste(const char *id);
-void limparInput();
+void limparBuffer();
+void letrasMinusculas(char *str);
 void mainMenu();
 
 void menu(const char *titulo, const char *introducao, const char *opcoes[], int n_opcoes) {
@@ -42,7 +43,7 @@ void MenuFuncionarios() {
 
     menu("Opcao escolhida - Funcionarios", "Especifique o grupo", opcoes, 4);
     scanf("%d", &opcao);
-    limparInput();
+    limparBuffer();
 
     if (opcao == 1) {
         Menu_EquipeDeBordo();
@@ -58,7 +59,7 @@ void Menu_EquipeDeBordo() {
 
     menu("Opcao escolhida - Equipe de bordo", "Pilotos ou comissarios?", opcoes, 2);
     scanf("%d", &opcao);
-    limparInput();
+    limparBuffer();
 
     if (opcao == 1) {
         Pilotos();
@@ -90,10 +91,10 @@ void gerenciarPilotos() {
     printf("\n1. Cadastrar novo piloto\n2. Consultar piloto\n3. Voltar\nEscolha uma opçcao: ");
     int escolha;
     scanf("%d", &escolha);
-    limparInput();
+    limparBuffer();
 
     if (escolha == 1) {
-        char nome[100], cpf[20], licenca[50], numero[20], email[100], tipo_voo[20], id[30];
+        char  nome[100], cpf[20], licenca[50], numero[20], email[100], tipo_voo[20], id[30];
 
         printf("\nDigite o nome do piloto: ");
         fgets(nome, sizeof(nome), stdin);
@@ -111,28 +112,26 @@ void gerenciarPilotos() {
         fgets(email, sizeof(email), stdin);
 
         printf("O piloto faz voos internacionais? (s/n): ");
-        char resp;
-        scanf("%c", &resp);
-        limparInput();
+        char resposta;
+        scanf("%c", &resposta);
+        limparBuffer();
+        
+        strcpy(tipo_voo, (resposta == 's' || resposta == 'S') ? "Internacional" : "Nacional");
 
-        strcpy(tipo_voo, (resp == 's' || resp == 'S') ? "Internacional" : "Nacional");
-
-        // Gerar ID único
         do {
             strcpy(id, gerarID(tipo_voo));
         } while (idExiste(id));
 
-        // Limpar quebras de linha
         nome[strcspn(nome, "\n")] = 0;
         cpf[strcspn(cpf, "\n")] = 0;
         licenca[strcspn(licenca, "\n")] = 0;
         numero[strcspn(numero, "\n")] = 0;
         email[strcspn(email, "\n")] = 0;
 
-        fprintf(arquivo, "ID: %s | Nome: %s | CPF: %s | Licenca: %s | Telefone: %s | Email: %s | Tipo de Voo: %s\n",
+        fprintf(arquivo, "ID: %s | Nome: %s | CPF: %s | Licenca: %s | Telefone: %s | Email: %s | Tipo de Voo: %s\n\n",
                 id, nome, cpf, licenca, numero, email, tipo_voo);
 
-        printf("\nPiloto cadastrado com sucesso com ID: %s\n", id);
+        printf("\nPiloto cadastrado com sucesso, ID registrado: %s\n", id);
         system("pause");
     } else if (escolha == 2) {
         consultarPiloto();
@@ -146,14 +145,10 @@ char *gerarID(const char *tipo_voo) {
     static char id[30];
     int num = rand() % 9000 + 1000;
 
-    if (strcmp(tipo_voo, "Internacional") == 0)
-        sprintf(id, "INT-%d", num);
-    if (strcmp(tipo_voo, "internacional") == 0)
-        sprintf(id, "INT-%d", num);
-    else if (strcmp(tipo_voo, "Nacional") == 0)
-        sprintf(id, "NAC-%d", num);
-    else if (strcmp(tipo_voo, "nacional") == 0)
-        sprintf(id, "NAC-%d", num);
+    if (strcmp(tipo_voo, "internacional") == 0){
+        sprintf(id, "INT-%d", num);}
+    else if (strcmp(tipo_voo, "nacional") == 0){
+        sprintf(id, "NAC-%d", num);}
 
     return id;
 }
@@ -181,28 +176,28 @@ void consultarPiloto() {
         return;
     }
 
-    char busca[100];
+    char buscarPiloto[100];
     printf("\nDigite o nome ou ID do piloto que deseja consultar: ");
-    fgets(busca, sizeof(busca), stdin);
-    busca[strcspn(busca, "\n")] = 0;
+    fgets(buscarPiloto, sizeof(buscarPiloto), stdin);
+    buscarPiloto[strcspn(buscarPiloto, "\n")] = 0;
 
     char linha[256];
     int encontrado = 0;
     while (fgets(linha, sizeof(linha), arquivo)) {
-        if (strstr(linha, busca) != NULL) {
+        if (strstr(linha, buscarPiloto) != NULL) {
             printf("Resultado encontrado:\n%s\n", linha);
             encontrado = 1;
         }
     }
 
     if (!encontrado)
-        printf("Nenhum piloto encontrado com o termo: %s\n", busca);
+        printf("Nenhum piloto encontrado com o termo: %s\n", buscarPiloto);
 
     fclose(arquivo);
     system("pause");
 }
 
-void limparInput() {
+void limparBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -218,9 +213,15 @@ void mainMenu() {
 
     menu("Aeroporto Santos Dumont", "Escolha uma opcao", opcoes, 4);
     scanf("%d", &opcao);
-    limparInput();
+    limparBuffer();
 
     if (opcao == 1) {
         MenuFuncionarios();
+    }
+}
+
+void letrasMinusculas(char *str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = tolower((unsigned char) str[i]);
     }
 }
