@@ -1,0 +1,2 @@
+void exibirRelatorio();
+void relatorioPilotosPorTipo();

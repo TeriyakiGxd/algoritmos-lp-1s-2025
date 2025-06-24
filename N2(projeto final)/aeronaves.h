@@ -1,0 +1,2 @@
+void gerenciarAeroNaves();
+void consultarAeronaves();
