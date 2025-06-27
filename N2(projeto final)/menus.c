@@ -52,19 +52,15 @@ void mainMenu() {
     }
     else if (opcao == 1) {
         Pilotos();
-        break;
         }
     else if (opcao == 2) {
         gerenciarAeroNaves();
-        break;
         }
         else if (opcao == 3) {
         cadastrarGerente();
-        break;
         }
         else if (opcao == 4) {
         exibirRelatorio();
-        break;
         }
     else {
         printf("Entrada invalida\n\n");
@@ -80,7 +76,7 @@ void exibirRelatorio() {
         "Voltar",
     };
     while(1){
-    menu("Relatorios", "Escolha uma opcao", opcoes, 3);
+    menu("Relatorios", "Escolha uma opcao", opcoes, 2);
     scanf("%d", &opcao);
     limparBuffer();
         if (opcao == 0) {

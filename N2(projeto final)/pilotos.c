@@ -35,7 +35,7 @@ void gerenciarPilotos() {
         printf("%s", linha);
     }
 
-    printf("\n1. Cadastrar novo piloto\n2. Consultar piloto\n3. Remover Piloto\n0. Sair\nEscolha uma opcao: ");
+    printf("\n1. Cadastrar novo piloto\n2. Consultar piloto\n3. Remover Piloto\n4. Voltar\n0. Sair\nEscolha uma opcao: ");
     int escolha;
     scanf("%d", &escolha);
     limparBuffer();
@@ -176,7 +176,11 @@ void gerenciarPilotos() {
             printf("ID %s nao encontrado.\n", id);
         }
         Pilotos();
-    } else {
+    } else if(escolha == 4){
+        fclose(arquivo);
+        mainMenu();
+    }
+        else {
         printf("Opcao invalida!\n");
         system("pause");
         fclose(arquivo);
