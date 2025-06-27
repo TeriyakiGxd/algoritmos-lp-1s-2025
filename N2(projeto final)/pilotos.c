@@ -35,7 +35,7 @@ void gerenciarPilotos() {
         printf("%s", linha);
     }
 
-    printf("\n1. Cadastrar novo piloto\n2. Consultar piloto\n3. Remover Piloto\n4. Voltar\n0. Sair\nEscolha uma opcao: ");
+    printf("\n1. Cadastrar novo piloto\n2. Consultar piloto\n3. Voltar\n0. Sair\nEscolha uma opcao: ");
     int escolha;
     scanf("%d", &escolha);
     limparBuffer();
@@ -163,20 +163,6 @@ void gerenciarPilotos() {
         fclose(arquivo);
         consultarPiloto();
     } else if (escolha == 3) {
-        fclose(arquivo);
-        char id[30];
-        printf("Digite o ID do piloto a ser removido: ");
-        fgets(id, sizeof(id), stdin);
-        id[strcspn(id, "\n")] = 0;
-
-        if (idExiste(id)) {
-            apagarLinhaArquivo("pilotos.txt", id);
-            printf("Piloto com ID %s removido com sucesso.\n", id);
-        } else {
-            printf("ID %s nao encontrado.\n", id);
-        }
-        Pilotos();
-    } else if(escolha == 4){
         fclose(arquivo);
         mainMenu();
     }
