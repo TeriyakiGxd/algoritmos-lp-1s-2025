@@ -9,6 +9,19 @@ void consultarAeronaves();
 void gerenciarAeroNaves();
 
 void gerenciarAeroNaves() {
+    int capacidade = 2;
+    int quantidade = 0;
+
+    char **modelos = malloc(capacidade * sizeof(char *));
+    char **prefixos = malloc(capacidade * sizeof(char *));
+    char **matriculas = malloc(capacidade * sizeof(char *));
+    char **tipos = malloc(capacidade * sizeof(char *));
+
+    if (!modelos || !prefixos || !matriculas || !tipos) {
+        printf("Erro de alocacao de memoria.\n");
+        return;
+    }
+
     FILE *arquivo = fopen("Aeronaves.txt", "a+");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo de Aeronaves.\n");
@@ -24,6 +37,8 @@ void gerenciarAeroNaves() {
         printf("%s", linha);
     }
 
+    fclose(arquivo);
+
     printf("\n1. Cadastrar Aeronave\n2. Consultar Aeronave\n3. Voltar\n0. Sair\nEscolha uma opcao: ");
     char entrada[10];
     int escolha;
@@ -33,40 +48,82 @@ void gerenciarAeroNaves() {
     if (escolha == 0) {
         fecharPrograma();
     } else if (escolha == 1) {
-        char modelo[50], prefixo[10], matricula[10], tipo[30];
+        while (1) {
+            if (quantidade == capacidade) {
+                capacidade *= 2;
+                modelos = realloc(modelos, capacidade * sizeof(char *));
+                prefixos = realloc(prefixos, capacidade * sizeof(char *));
+                matriculas = realloc(matriculas, capacidade * sizeof(char *));
+                tipos = realloc(tipos, capacidade * sizeof(char *));
 
-        printf("\nDigite o modelo: ");
-        fgets(modelo, sizeof(modelo), stdin);
-        modelo[strcspn(modelo, "\n")] = 0;
+                if (!modelos || !prefixos || !matriculas || !tipos) {
+                    printf("Erro ao realocar memoria.\n");
+                    return;
+                }
+            }
 
-        printf("Digite o prefixo: ");
-        fgets(prefixo, sizeof(prefixo), stdin);
-        prefixo[strcspn(prefixo, "\n")] = 0;
+            modelos[quantidade] = malloc(50);
+            prefixos[quantidade] = malloc(10);
+            matriculas[quantidade] = malloc(10);
+            tipos[quantidade] = malloc(30);
 
-        printf("Digite a matricula: ");
-        fgets(matricula, sizeof(matricula), stdin);
-        matricula[strcspn(matricula, "\n")] = 0;
+            if (!modelos[quantidade] || !prefixos[quantidade] || !matriculas[quantidade] || !tipos[quantidade]) {
+                printf("Erro de alocacao de string.\n");
+                return;
+            }
 
-        printf("Digite o tipo (Comercial / Carga / Executivo): ");
-        fgets(tipo, sizeof(tipo), stdin);
-        tipo[strcspn(tipo, "\n")] = 0;
+            printf("\nDigite o modelo: ");
+            fgets(modelos[quantidade], 50, stdin);
+            modelos[quantidade][strcspn(modelos[quantidade], "\n")] = 0;
 
-        fprintf(arquivo, "modelo: %s | marca: %s-%s | tipo: %s\n\n",
-                modelo, prefixo, matricula, tipo);
+            printf("Digite o prefixo: ");
+            fgets(prefixos[quantidade], 10, stdin);
+            prefixos[quantidade][strcspn(prefixos[quantidade], "\n")] = 0;
 
-        printf("\nAeronave cadastrada com sucesso, marca da aeronave: %s-%s\n", prefixo, matricula);
-        system("pause");
-        fclose(arquivo);
-        gerenciarAeroNaves(); 
+            printf("Digite a matricula: ");
+            fgets(matriculas[quantidade], 10, stdin);
+            matriculas[quantidade][strcspn(matriculas[quantidade], "\n")] = 0;
+
+            printf("Digite o tipo (Comercial / Carga / Executivo): ");
+            fgets(tipos[quantidade], 30, stdin);
+            tipos[quantidade][strcspn(tipos[quantidade], "\n")] = 0;
+
+            FILE *arq = fopen("Aeronaves.txt", "a");
+            if (arq) {
+                fprintf(arq, "modelo: %s | marca: %s-%s | tipo: %s\n\n",
+                        modelos[quantidade], prefixos[quantidade], matriculas[quantidade], tipos[quantidade]);
+                fclose(arq);
+            }
+
+            printf("\nAeronave cadastrada com sucesso, marca da aeronave: %s-%s\n", prefixos[quantidade], matriculas[quantidade]);
+            quantidade++;
+
+            char resposta;
+            printf("Deseja cadastrar outra aeronave? (s/n): ");
+            scanf(" %c", &resposta);
+            getchar();
+            if (resposta != 's' && resposta != 'S') break;
+        }
+
+        for (int i = 0; i < quantidade; i++) {
+            free(modelos[i]);
+            free(prefixos[i]);
+            free(matriculas[i]);
+            free(tipos[i]);
+        }
+        free(modelos);
+        free(prefixos);
+        free(matriculas);
+        free(tipos);
+
+        gerenciarAeroNaves();
+
     } else if (escolha == 2) {
-        fclose(arquivo);
         consultarAeronaves();
-    } else if (escolha == 4) {
-        fclose(arquivo);
+    } else if (escolha == 3) {
         mainMenu();
     } else {
         printf("Opcao invalida!\n");
-        fclose(arquivo);
         system("pause");
         gerenciarAeroNaves();
     }
